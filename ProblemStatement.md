@@ -440,7 +440,7 @@ The DoorDash Optimizer Problem is a lexicographic integer optimization problem o
 $$
 (x^{*}, y^{*})
 \in
-\operatorname*{arg\,max}_{(x,y)\in X}
+\arg\max_{(x,y)\in X}
 \left(
 K(x), -C(x;\pi), -\sum_{r \in R} y_r
 \right)
