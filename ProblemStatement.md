@@ -438,9 +438,9 @@ This is a multiple-choice knapsack representation of the original problem after 
 The DoorDash Optimizer Problem is a lexicographic integer optimization problem over feasible baskets $(x, y)$. In compact form,
 
 $$
-(x^*, y^*)
+(x^{*}, y^{*})
 \in
-\arg\max_{(x,y)\in X}
+\operatorname*{arg\,max}_{(x,y)\in X}
 \left(
 K(x), -C(x;\pi), -\sum_{r \in R} y_r
 \right)
