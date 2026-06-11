@@ -16,7 +16,7 @@ $$
 I_r = \{1, \dots, m_r\}
 $$
 
-be its item set.
+be its set of menu items.
 
 For each item $i \in I_r$, define:
 
@@ -36,7 +36,7 @@ For each restaurant $r \in R$, define:
 
 Global parameters:
 
-- $B \ge 0$: user budget
+- $B \ge 0$: total budget
 - $M \in \{1, \dots, n\}$: maximum number of active restaurants
 
 Let
@@ -49,145 +49,144 @@ $$
 
 For each restaurant $r \in R$ and item $i \in I_r$, let:
 
-- $x_{ri} \in \mathbb{Z}_{\ge 0}$: quantity of item $i$ purchased from restaurant $r$
+- $x_{ri} \in \mathbb{Z}_{\ge 0}$: quantity of item $i$ ordered from restaurant $r$
 
 For each restaurant $r \in R$, let:
 
 - $y_r \in \{0,1\}$: restaurant activation variable
 
-The activation constraints are:
+The activation constraints are
 
 $$
 0 \le x_{ri} \le u_{ri} y_r
 \qquad
-\forall r \in R,\ i \in I_r
+\forall r \in R,\ i \in I_r.
 $$
 
 Thus, if $y_r = 0$, then $x_{ri} = 0$ for every item at restaurant $r$.
 
-Define the basket vector:
+Define the basket vector
 
 $$
-x = (x_{ri})_{r \in R,\ i \in I_r}
+x = (x_{ri})_{r \in R,\ i \in I_r}.
 $$
 
-## 3. Restaurant-Level Functions
+## 3. Restaurant-Level Quantities
 
-For each restaurant $r$, define the raw subtotal:
+For each restaurant $r$, define the raw subtotal
 
 $$
 S_r(x_r) = \sum_{i \in I_r} p_{ri} x_{ri}
 $$
 
-Define the calorie total:
+and the calorie total
 
 $$
-K_r(x_r) = \sum_{i \in I_r} k_{ri} x_{ri}
+K_r(x_r) = \sum_{i \in I_r} k_{ri} x_{ri}.
 $$
 
-Define total basket calories:
+The total basket calories are
 
 $$
 K(x) = \sum_{r \in R} K_r(x_r)
-= \sum_{r \in R} \sum_{i \in I_r} k_{ri} x_{ri}
+= \sum_{r \in R} \sum_{i \in I_r} k_{ri} x_{ri}.
 $$
 
 ## 4. Promotion Model
 
-For each restaurant $r$, define a discount functional:
+For each restaurant $r$, define a discount functional
 
 $$
-D_r(x_r; \pi_r) \ge 0
+D_r(x_r; \pi_r) \ge 0,
 $$
 
-This is the total discount induced by basket $x_r$ under promotion policy $\pi_r$.
+representing the total discount induced by basket $x_r$ under promotion policy $\pi_r$.
 
-Define the post-promotion subtotal:
-
-$$
-P_r(x_r; \pi_r) = S_r(x_r) - D_r(x_r; \pi_r)
-$$
-
-with feasibility condition:
+Define the post-promotion subtotal
 
 $$
-P_r(x_r; \pi_r) \ge 0
+P_r(x_r; \pi_r) = S_r(x_r) - D_r(x_r; \pi_r),
 $$
 
-This formulation allows `D_r` to encode BOGO rules, threshold discounts, fixed discounts, combos, exclusions, and other non-additive promotions.
+with feasibility condition
 
-### 4.1 Buy-a-Get-b Promotion
+$$
+P_r(x_r; \pi_r) \ge 0.
+$$
 
-If item $i$ at restaurant $r$ follows a buy-$a$-get-$b$ rule, define the number of paid units by:
+This allows $D_r$ to encode BOGO rules, threshold discounts, fixed discounts, combos, exclusions, and other non-additive promotion effects.
+
+### 4.1. Buy-a-Get-b Promotion
+
+If item $i$ at restaurant $r$ follows a buy-$a$-get-$b$ rule, define the number of paid units by
 
 $$
 g_{ri}(x_{ri})
 =
 a \left\lfloor \frac{x_{ri}}{a+b} \right\rfloor
-+ \min(x_{ri} \bmod (a+b), a)
++ \min(x_{ri} \bmod (a+b), a).
 $$
 
-The effective charge contributed by that item is:
+The effective charge contributed by that item is
 
 $$
-p_{ri} g_{ri}(x_{ri})
+p_{ri} g_{ri}(x_{ri}).
 $$
 
 The BOGO case corresponds to $a = 1$ and $b = 1$.
 
-### 4.2 Threshold Percentage Discount
+### 4.2. Threshold Percentage Discount
 
-If restaurant $r$ offers discount rate $\delta_r$ whenever subtotal reaches threshold $T_r$, define:
+If restaurant $r$ offers discount rate $\delta_r$ whenever subtotal reaches threshold $T_r$, define
 
 $$
 D_r^{\mathrm{thr}}(x_r)
 =
-\mathbf{1}[S_r(x_r) \ge T_r] \, \delta_r S_r(x_r)
+\mathbf{1}[S_r(x_r) \ge T_r] \, \delta_r S_r(x_r).
 $$
 
-Hence:
+Hence
 
 $$
 P_r(x_r; \pi_r)
 =
-S_r(x_r)\left(1 - \delta_r \mathbf{1}[S_r(x_r) \ge T_r]\right)
+S_r(x_r)\left(1 - \delta_r \mathbf{1}[S_r(x_r) \ge T_r]\right).
 $$
 
-### 4.3 Threshold Fixed-Dollar Discount
+### 4.3. Threshold Fixed-Dollar Discount
 
-If restaurant $r$ offers a fixed discount $A_r$ whenever subtotal reaches threshold $T_r$, define:
+If restaurant $r$ offers a fixed discount $A_r$ whenever subtotal reaches threshold $T_r$, define
 
 $$
 D_r^{\mathrm{fix}}(x_r)
 =
-\mathbf{1}[S_r(x_r) \ge T_r] \, A_r
+\mathbf{1}[S_r(x_r) \ge T_r] \, A_r.
 $$
 
-Hence:
+Hence
 
 $$
-P_r(x_r; \pi_r) = S_r(x_r) - D_r^{\mathrm{fix}}(x_r)
+P_r(x_r; \pi_r) = S_r(x_r) - D_r^{\mathrm{fix}}(x_r).
 $$
 
 ## 5. All-In Cost Model
 
-For each restaurant $r$, define the all-in cost:
+For each restaurant $r$, define the all-in cost
 
 $$
-\begin{aligned}
 C_r(x_r; \pi_r)
-= y_r \Big(
-&P_r(x_r; \pi_r)
+=
+y_r \Big(
+P_r(x_r; \pi_r)
 + d_r
-+ \sigma_r P_r(x_r; \pi_r) \\
-&+ \tau_r P_r(x_r; \pi_r)
++ \sigma_r P_r(x_r; \pi_r)
++ \tau_r P_r(x_r; \pi_r)
 + \gamma_r P_r(x_r; \pi_r)
 + \ell_r \mathbf{1}[P_r(x_r; \pi_r) < L_r]
-\Big)
-\end{aligned}
+\Big).
 $$
 
-Equivalently:
+Equivalently,
 
 $$
 C_r(x_r; \pi_r)
@@ -196,28 +195,33 @@ y_r \Big(
 (1+\sigma_r+\tau_r+\gamma_r) P_r(x_r; \pi_r)
 + d_r
 + \ell_r \mathbf{1}[P_r(x_r; \pi_r) < L_r]
-\Big)
+\Big).
 $$
 
-The total all-in basket cost is:
+The total all-in basket cost is
 
 $$
-C(x; \pi) = \sum_{r \in R} C_r(x_r; \pi_r)
+C(x; \pi) = \sum_{r \in R} C_r(x_r; \pi_r).
 $$
 
 ## 6. Feasible Set
 
-Define the feasible set $X$ as the set of all pairs $(x, y)$ satisfying:
+Define the feasible set by
 
 $$
-\begin{aligned}
-x_{ri} &\in \mathbb{Z}_{\ge 0} && \forall r \in R,\ i \in I_r \\
-y_r &\in \{0,1\} && \forall r \in R \\
-0 \le x_{ri} &\le u_{ri} y_r && \forall r \in R,\ i \in I_r \\
-C(x; \pi) &\le B \\
-\sum_{r \in R} y_r &\le M
-\end{aligned}
+\mathcal{X}
+=
+\left\{
+(x,y) :
+x_{ri} \in \mathbb{Z}_{\ge 0},
+\ y_r \in \{0,1\},
+\ 0 \le x_{ri} \le u_{ri} y_r,
+\ C(x;\pi) \le B,
+\ \sum_{r \in R} y_r \le M
+\right\},
 $$
+
+for all $r \in R$ and $i \in I_r$ where applicable.
 
 Thus feasibility enforces:
 
@@ -228,29 +232,28 @@ Thus feasibility enforces:
 
 ## 7. Optimization Problem
 
-The primary objective is:
+The primary objective is to maximize total calories over $\mathcal{X}$.
+
+To break ties, define the lexicographic objective
 
 $$
-\max K(x)
-\quad
-\text{subject to } (x,y) \in X
+\Phi(x,y) =
+\left(
+K(x),
+-C(x;\pi),
+-\sum_{r \in R} y_r
+\right).
 $$
 
-To break ties, define the lexicographic objective:
+The DoorDash Optimizer Problem (DOP) is
 
 $$
-\Phi(x,y) = \left(K(x), -C(x;\pi), -\sum_{r \in R} y_r\right)
-$$
-
-The DoorDash Optimizer Problem (DOP) is:
-
-$$
-(x^*, y^*)
+(x^{\ast}, y^{\ast})
 \in
-\arg\max_{(x,y)\in X}
+\arg\max_{(x,y)\in \mathcal{X}}
 \left(
 K(x), -C(x;\pi), -\sum_{r \in R} y_r
-\right)
+\right),
 $$
 
 where the objective is interpreted lexicographically.
@@ -270,53 +273,53 @@ $$
 =
 \left(
 R,\{I_r\}_{r \in R},p,k,u,\pi,d,\sigma,\tau,\gamma,\ell,L,B,M
-\right)
+\right),
 $$
 
-the DoorDash Optimizer Problem is the lexicographic integer optimization problem:
+the DoorDash Optimizer Problem is the lexicographic integer optimization problem
 
 $$
-(x^*, y^*)
+(x^{\ast}, y^{\ast})
 \in
-\arg\max_{(x,y)\in X}
+\arg\max_{(x,y)\in \mathcal{X}}
 \left(
 K(x), -C(x;\pi), -\sum_{r \in R} y_r
-\right)
+\right).
 $$
 
-Any optimizer $(x^*, y^*)$ is called an optimal basket.
+Any optimizer $(x^{\ast}, y^{\ast})$ is called an optimal basket.
 
 ## 9. Basic Correctness Statement
 
-Let $(x^*, y^*)$ solve DOP. Then:
+Let $(x^{\ast}, y^{\ast})$ solve DOP. Then
 
 $$
-C(x^*; \pi) \le B
+C(x^{\ast}; \pi) \le B,
 $$
 
-and for every feasible $(x, y) \in X$:
+and for every feasible $(x, y) \in \mathcal{X}$,
 
 $$
-K(x^*) \ge K(x)
+K(x^{\ast}) \ge K(x).
 $$
 
-Moreover, if $K(x) = K(x^*)$, then:
+Moreover, if $K(x) = K(x^{\ast})$, then
 
 $$
-C(x^*; \pi) \le C(x; \pi)
+C(x^{\ast}; \pi) \le C(x; \pi).
 $$
 
-Finally, if both $K(x) = K(x^*)$ and $C(x; \pi) = C(x^*; \pi)$, then:
+Finally, if both $K(x) = K(x^{\ast})$ and $C(x; \pi) = C(x^{\ast}; \pi)$, then
 
 $$
-\sum_{r \in R} y_r^{*} \le \sum_{r \in R} y_r
+\sum_{r \in R} y_r^{\ast} \le \sum_{r \in R} y_r.
 $$
 
 These properties follow directly from feasibility and lexicographic optimality.
 
 ## 10. Structural Properties
 
-### 10.1 Nonlinearity
+### 10.1. Nonlinearity
 
 The calorie objective $K(x)$ is linear, but the cost functional $C(x; \pi)$ is generally nonlinear and may be discontinuous in the discrete decision variables.
 
@@ -327,18 +330,18 @@ Sources of nonlinearity include:
 - restaurant activation costs
 - small-order penalties
 
-### 10.2 Threshold Activation Effect
+### 10.2. Threshold Activation Effect
 
-There exist baskets $x_r$ and $x_r'$ such that:
+There exist baskets $x_r$ and $x_r'$ such that
 
 $$
 S_r(x_r') > S_r(x_r)
 $$
 
-but:
+but
 
 $$
-P_r(x_r'; \pi_r) < P_r(x_r; \pi_r)
+P_r(x_r'; \pi_r) < P_r(x_r; \pi_r).
 $$
 
 One construction is:
@@ -348,10 +351,10 @@ One construction is:
 - if the threshold discount rate is $\delta$ and $\varepsilon < T\delta$, then
 
 $$
-P_r(x_r'; \pi_r) = T(1-\delta) < T-\varepsilon = P_r(x_r; \pi_r)
+P_r(x_r'; \pi_r) = T(1-\delta) < T-\varepsilon = P_r(x_r; \pi_r).
 $$
 
-### 10.3 BOGO Dominance
+### 10.3. BOGO Dominance
 
 A higher listed-price item can dominate a lower listed-price item in calories per dollar after promotions are applied.
 
@@ -360,27 +363,27 @@ Example:
 - item A: $(p_A, k_A) = (8, 800)$
 - item B: $(p_B, k_B) = (12, 1200)$
 
-Without promotions:
+Without promotions,
 
 $$
-\frac{k_A}{p_A} = \frac{k_B}{p_B} = 100
+\frac{k_A}{p_A} = \frac{k_B}{p_B} = 100.
 $$
 
-If item B is BOGO, then two units give:
+If item B is BOGO, then two units give
 
 $$
 \text{cost} = 12,
 \qquad
 \text{calories} = 2400,
 \qquad
-\frac{2400}{12} = 200
+\frac{2400}{12} = 200.
 $$
 
 Hence item B strictly dominates item A in effective calories per dollar.
 
-### 10.4 Restaurant Activation Cost
+### 10.4. Restaurant Activation Cost
 
-Opening a new restaurant is beneficial only if the extra calories gained from that restaurant justify its fixed activation cost and fee overhead.
+Opening a new restaurant is beneficial only if the additional calories gained from that restaurant justify its fixed activation cost and fee overhead.
 
 ## 11. Relation to Knapsack
 
@@ -416,19 +419,32 @@ Introduce binary variables:
 
 - $z_{rb} \in \{0,1\}$
 
-The reduced problem is:
+The reduced problem is
 
 $$
-\begin{aligned}
-\max\ &\sum_{r \in R} \sum_{b \in B_r} k_{rb} z_{rb} \\
-\text{subject to }&
-\sum_{r \in R} \sum_{b \in B_r} c_{rb} z_{rb} \le B, \\
-&\sum_{b \in B_r} z_{rb} \le 1
-\qquad \forall r \in R, \\
-&\sum_{r \in R} \sum_{b \in B_r} z_{rb} \le M, \\
-&z_{rb} \in \{0,1\}
-\qquad \forall r \in R,\ b \in B_r
-\end{aligned}
+\max \sum_{r \in R} \sum_{b \in B_r} k_{rb} z_{rb}
+$$
+
+subject to
+
+$$
+\sum_{r \in R} \sum_{b \in B_r} c_{rb} z_{rb} \le B,
+$$
+
+$$
+\sum_{b \in B_r} z_{rb} \le 1
+\qquad
+\forall r \in R,
+$$
+
+$$
+\sum_{r \in R} \sum_{b \in B_r} z_{rb} \le M,
+$$
+
+$$
+z_{rb} \in \{0,1\}
+\qquad
+\forall r \in R,\ b \in B_r.
 $$
 
 This is a multiple-choice knapsack representation of the original problem after restaurant-level bundle generation.
@@ -438,17 +454,17 @@ This is a multiple-choice knapsack representation of the original problem after 
 The DoorDash Optimizer Problem is a lexicographic integer optimization problem over feasible baskets $(x, y)$. In compact form,
 
 $$
-(x^{*}, y^{*})
+(x^{\ast}, y^{\ast})
 \in
-\arg\max_{(x,y)\in X}
+\arg\max_{(x,y)\in \mathcal{X}}
 \left(
 K(x), -C(x;\pi), -\sum_{r \in R} y_r
-\right)
+\right),
 $$
 
 with lexicographic comparison of the three objective components.
 
-The feasible set $X$ encodes:
+The feasible set $\mathcal{X}$ encodes:
 
 - item quantity constraints
 - promotion-dependent costs
