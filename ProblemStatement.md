@@ -149,7 +149,7 @@ $$
 
 The formulation does not assume a specific parametric form for $D_r$. It may encode BOGO offers, threshold discounts, fixed-dollar discounts, combos, exclusions, and other non-additive promotional rules.
 
-### 4.1. Example: buy-$a$-get-$b$
+### 4.1. Example: Buy-a-Get-b Promotion
 
 If item $i$ at restaurant $r$ follows a buy-$a$-get-$b$ rule, define the paid-unit count
 
@@ -245,7 +245,7 @@ $$
 \mathcal{X}
 =
 \left\{
-(x,y)\,\,\middle|\,
+(x,y)\,:\,
 \begin{array}{l}
 x_{ri}\in \mathbb{Z}_{\ge 0},\ y_r\in\{0,1\}, \\
 0\le x_{ri}\le u_{ri}y_r \quad \forall r,\forall i\in I_r, \\
@@ -280,9 +280,9 @@ $$
 The formal DoorDash Optimizer Problem (DOP) is
 
 $$
-(x^*,y^*)
+(x^{*},y^{*})
 \in
-\arg\max_{(x,y)\in\mathcal{X}}^{\mathrm{lex}}
+\operatorname*{lexmax}_{(x,y)\in\mathcal{X}}
 \Phi(x,y).
 $$
 
@@ -308,7 +308,7 @@ $$
 the DoorDash Optimizer Problem is the lexicographic integer optimization problem
 
 $$
-\max_{(x,y)\in\mathcal{X}}^{\mathrm{lex}}
+\operatorname*{lexmax}_{(x,y)\in\mathcal{X}}
 \left(
 K(x),
 -C(x;\pi),
@@ -316,47 +316,47 @@ K(x),
 \right).
 $$
 
-Its solution $(x^*,y^*)$ is called an optimal basket.
+Its solution $(x^{*},y^{*})$ is called an optimal basket.
 
 ## 9. Basic correctness statement
 
 **Theorem 1.**  
-Let $(x^*,y^*)$ solve DOP. Then:
+Let $(x^{*},y^{*})$ solve DOP. Then:
 
 $$
-C(x^*;\pi)\le B,
+C(x^{*};\pi)\le B,
 $$
 
 $$
-K(x^*) \ge K(x)
+K(x^{*}) \ge K(x)
 \qquad
 \forall (x,y)\in\mathcal{X},
 $$
 
-and for any $(x,y)\in\mathcal{X}$ satisfying $K(x)=K(x^*)$,
+and for any $(x,y)\in\mathcal{X}$ satisfying $K(x)=K(x^{*})$,
 
 $$
-C(x^*;\pi)\le C(x;\pi).
+C(x^{*};\pi)\le C(x;\pi).
 $$
 
 Further, for any $(x,y)\in\mathcal{X}$ satisfying both
 
 $$
-K(x)=K(x^*)
+K(x)=K(x^{*})
 \quad\text{and}\quad
-C(x;\pi)=C(x^*;\pi),
+C(x;\pi)=C(x^{*};\pi),
 $$
 
 we have
 
 $$
-\sum_{r \in R} y_r^*
+\sum_{r \in R} y_r^{*}
 \le
 \sum_{r \in R} y_r.
 $$
 
 **Proof.**  
-All claims follow immediately from feasibility of $(x^*,y^*)$ and lexicographic optimality of $\Phi(x,y)$ over $\mathcal{X}$. $\square$
+All claims follow immediately from feasibility of $(x^{*},y^{*})$ and lexicographic optimality of $\Phi(x,y)$ over $\mathcal{X}$.
 
 ## 10. Structural properties
 
@@ -483,7 +483,7 @@ This is a multiple-choice knapsack representation of the original problem after 
 The DoorDash Optimizer Problem is the lexicographic integer optimization problem
 
 $$
-\max^{\mathrm{lex}}
+\operatorname*{lexmax}
 \left(
 K(x),
 -C(x;\pi),
