@@ -245,10 +245,15 @@ $$
 The DoorDash Optimizer Problem (DOP) is:
 
 $$
-\text{lexicographically maximize } \Phi(x,y)
-\quad
-\text{subject to } (x,y) \in X
+(x^*, y^*)
+\in
+\arg\max_{(x,y)\in X}
+\left(
+K(x), -C(x;\pi), -\sum_{r \in R} y_r
+\right)
 $$
+
+where the objective is interpreted lexicographically.
 
 Equivalently:
 
@@ -271,10 +276,12 @@ $$
 the DoorDash Optimizer Problem is the lexicographic integer optimization problem:
 
 $$
-\text{maximize }
-\left(K(x), -C(x;\pi), -\sum_{r \in R} y_r\right)
-\quad
-\text{subject to } (x,y) \in X
+(x^*, y^*)
+\in
+\arg\max_{(x,y)\in X}
+\left(
+K(x), -C(x;\pi), -\sum_{r \in R} y_r
+\right)
 $$
 
 Any optimizer $(x^*, y^*)$ is called an optimal basket.
@@ -428,13 +435,20 @@ This is a multiple-choice knapsack representation of the original problem after 
 
 ## 13. Summary
 
-The DoorDash Optimizer Problem is a lexicographic integer optimization problem over feasible baskets $(x, y)$ with objective:
+The DoorDash Optimizer Problem is a lexicographic integer optimization problem over feasible baskets $(x, y)$. In compact form,
 
 $$
-\left(K(x), -C(x;\pi), -\sum_{r \in R} y_r\right)
+(x^*, y^*)
+\in
+\arg\max_{(x,y)\in X}
+\left(
+K(x), -C(x;\pi), -\sum_{r \in R} y_r
+\right)
 $$
 
-subject to:
+with lexicographic comparison of the three objective components.
+
+The feasible set $X$ encodes:
 
 - item quantity constraints
 - promotion-dependent costs
