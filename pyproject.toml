@@ -1,0 +1,10 @@
+[project]
+name = "doordash-optimizer"
+version = "0.1.0"
+description = "Deal-aware, fee-aware calorie optimizer for restaurant baskets."
+requires-python = ">=3.10"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
